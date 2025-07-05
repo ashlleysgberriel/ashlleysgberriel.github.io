@@ -1,4 +1,4 @@
-document.filmes= [{"id":1,
+const filmes= [{"id":1,
 "titulo":"Better Call Saul",
 "resumo":"Jimmy era um advogado qualquer at\u00e9 a vida o transformar em Saul, o cara que coloca criminosos dentro da lei.",
 "generos":["S\u00e9ries","S\u00e9ries dos EUA","S\u00e9ries C\u00f4micas","S\u00e9ries Dram\u00e1ticas"],

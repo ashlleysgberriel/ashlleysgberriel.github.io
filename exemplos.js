@@ -13,6 +13,6 @@ receitas.forEach( function(receita) {
 /*
 result.appendChild(criaItem("li", textContent, receitas.ingredientes))
 result.appendChild(criaItem("p", textContent, receitas.preparo))
-/*
+*/
 
 })
