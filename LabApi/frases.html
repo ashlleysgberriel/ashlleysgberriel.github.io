@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Frases Aleatórias</title>
+</head>
+<body>
+  <h1>Frases Aleatórias</h1>
+  <button onclick="mostrarFrases()">Gerar 5 Frases</button>
+  <div id="frases"></div>
+
+  <script>
+    async function buscarFrase() {
+      const resposta = await fetch('https://api.allorigins.win/raw?url=https://api.quotable.io/random');
+      return await resposta.json();
+    }
+
+    async function mostrarFrases() {
+      const container = document.getElementById('frases');
+      container.innerHTML = '<p>Carregando frases...</p>';
+
+      try {
+        const promessas = Array.from({ length: 5 }).map(() => buscarFrase());
+        const frases = await Promise.all(promessas);
+
+        container.innerHTML = ''; 
+
+        frases.forEach(frase => {
+          const p = document.createElement('p');
+          p.textContent = `"${frase.content}" — ${frase.author}`;
+          container.appendChild(p);
+        });
+
+      } catch (erro) {
+        container.innerHTML = '<p>Erro ao buscar as frases.</p>';
+        console.error('Erro real:', erro);
+      }
+    }
+  </script>
+</body>
+</html>

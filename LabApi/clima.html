@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><title>Clima</title></head>
+<body>
+  <h1>Previsão do Tempo</h1>
+  <div id="clima"></div>
+  <script>
+    const API_KEY = 'SUA_CHAVE_API_OPENWEATHER';
+
+    async function buscarClima(cidade) {
+      const resposta = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${API_KEY}&units=metric`);
+      const dados = await resposta.json();
+      return {
+        cidade: dados.name,
+        temperatura: dados.main.temp,
+        umidade: dados.main.humidity,
+        condicao: dados.weather[0].description
+      };
+    }
+
+    async function mostrarClima() {
+      const cidades = ['Rio de Janeiro', 'São Paulo', 'Curitiba'];
+      const resultados = [];
+
+      for (const cidade of cidades) {
+        const clima = await buscarClima(cidade);
+        resultados.push(clima);
+      }
+
+      const extremos = resultados.filter(c => c.temperatura > 35 || c.temperatura < 5);
+
+      document.getElementById('clima').innerHTML = JSON.stringify(extremos, null, 2);
+    }
+
+    mostrarClima();
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><title>Filmes OMDb</title></head>
+<body>
+  <h1>Filmes</h1>
+  <div id="filmes"></div>
+  <script>
+    const API_KEY = 'SUA_CHAVE_API_OMDB'; // 
+
+    async function buscarFilme(titulo) {
+      const resposta = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${titulo}`);
+      return await resposta.json();
+    }
+
+    async function listarFilmes() {
+      const titulos = ['Inception', 'The Matrix', 'Interstellar'];
+      const filmes = [];
+
+      for (const titulo of titulos) {
+        const filme = await buscarFilme(titulo);
+        filmes.push(filme);
+      }
+
+      const lista = filmes.map(f => ({
+        titulo: f.Title,
+        ano: f.Year,
+        diretor: f.Director
+      }));
+
+      const filtrados = lista.filter(f => parseInt(f.ano) > 2000);
+
+      document.getElementById('filmes').innerHTML = JSON.stringify(filtrados, null, 2);
+    }
+
+    listarFilmes();
+  </script>
+</body>
+</html>
