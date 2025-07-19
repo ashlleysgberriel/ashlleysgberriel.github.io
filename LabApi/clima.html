@@ -1,4 +1,4 @@
-
+<!-- clima.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><title>Clima</title></head>
@@ -6,8 +6,7 @@
   <h1>Previsão do Tempo</h1>
   <div id="clima"></div>
   <script>
-    const API_KEY = 'SUA_CHAVE_API_OPENWEATHER';
-
+    const API_KEY = 'CHAVE'; 
     async function buscarClima(cidade) {
       const resposta = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${API_KEY}&units=metric`);
       const dados = await resposta.json();

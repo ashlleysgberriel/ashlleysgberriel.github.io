@@ -6,7 +6,7 @@
   <h1>Filmes</h1>
   <div id="filmes"></div>
   <script>
-    const API_KEY = 'SUA_CHAVE_API_OMDB'; // 
+    const API_KEY = 'CHAVE';
 
     async function buscarFilme(titulo) {
       const resposta = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${titulo}`);
