@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca Interativa</title>
+</head>
+<body>
+  <h1>Biblioteca</h1>
+
+  <h2>Adicionar Livro</h2>
+  <label>Título: <input type="text" id="titulo"></label><br><br>
+  <label>Autor: <input type="text" id="autor"></label><br><br>
+  <button onclick="adicionarLivro()">Adicionar</button>
+
+  <h2>Atualizar Disponibilidade</h2>
+  <label>Título do Livro: <input type="text" id="tituloAtualiza"></label><br><br>
+  <button onclick="marcarDisponivel()">Marcar como Disponível</button>
+  <button onclick="marcarIndisponivel()">Marcar como Emprestado</button>
+
+  <h2>Resultado</h2>
+  <div id="saida"></div>
+
+  <script>
+    const biblioteca = [];
+
+    function adicionarLivro() {
+      const titulo = document.getElementById('titulo').value.trim();
+      const autor = document.getElementById('autor').value.trim();
+
+      if (titulo && autor) {
+        biblioteca.push({
+          titulo: titulo,
+          autor: autor,
+          disponivel: true,
+          emprestimos: 0
+        });
+        atualizarTela();
+      } else {
+        alert('Preencha o título e o autor.');
+      }
+    }
+
+    function marcarDisponivel() {
+      atualizarDisponibilidade(true);
+    }
+
+    function marcarIndisponivel() {
+      atualizarDisponibilidade(false);
+    }
+
+    function atualizarDisponibilidade(status) {
+      const tituloBusca = document.getElementById('tituloAtualiza').value.trim();
+      const livro = biblioteca.find(l => l.titulo.toLowerCase() === tituloBusca.toLowerCase());
+
+      if (livro) {
+        livro.disponivel = status;
+        if (!status) {
+          livro.emprestimos += 1;  
+        }
+        atualizarTela();
+      } else {
+        alert('Livro não encontrado.');
+      }
+    }
+
+    function atualizarTela() {
+      const disponiveis = biblioteca.filter(l => l.disponivel);
+      const emprestados = biblioteca.filter(l => !l.disponivel).map(l => l.titulo);
+      const totalEmprestimos = biblioteca.reduce((total, l) => total + l.emprestimos, 0);
+
+      document.getElementById('saida').innerHTML =
+        `<p><strong>Livros Disponíveis:</strong> ${disponiveis.map(l => l.titulo).join(', ') || 'Nenhum'}</p>
+         <p><strong>Livros Emprestados:</strong> ${emprestados.join(', ') || 'Nenhum'}</p>
+         <p><strong>Total de Empréstimos:</strong> ${totalEmprestimos}</p>`;
+    }
+  </script>
+</body>
+</html>

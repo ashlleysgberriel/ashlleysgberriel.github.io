@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor de Moedas</title>
+</head>
+<body>
+  <h1>Conversor de Moedas</h1>
+
+  <label>Valor: <input type="number" id="valor" step="0.01"></label><br><br>
+
+  <label>Moeda de Origem (ex: USD, BRL):
+    <input type="text" id="moedaDe" value="USD">
+  </label><br><br>
+
+  <label>Moeda de Destino (ex: EUR, BRL):
+    <input type="text" id="moedaPara" value="BRL">
+  </label><br><br>
+
+  <button onclick="converter()">Converter</button>
+
+  <h2>Resultado:</h2>
+  <div id="resultado"></div>
+
+  <script>
+    async function converterMoeda(valor, moedaDe, moedaPara) {
+      const resposta = await fetch(`https://api.exchangerate-api.com/v4/latest/${moedaDe}`);
+      const dados = await resposta.json();
+      const taxa = dados.rates[moedaPara.toUpperCase()];
+
+      if (!taxa) {
+        return 'Moeda de destino inválida!';
+      }
+
+      const convertido = valor * taxa;
+      return convertido.toFixed(2) + ' ' + moedaPara.toUpperCase();
+    }
+
+    async function converter() {
+      const valor = parseFloat(document.getElementById('valor').value);
+      const moedaDe = document.getElementById('moedaDe').value;
+      const moedaPara = document.getElementById('moedaPara').value;
+
+      if (isNaN(valor) || !moedaDe || !moedaPara) {
+        document.getElementById('resultado').textContent = 'Preencha todos os campos corretamente!';
+        return;
+      }
+
+      const resultado = await converterMoeda(valor, moedaDe, moedaPara);
+      document.getElementById('resultado').textContent = resultado;
+    }
+  </script>
+</body>
+</html>
