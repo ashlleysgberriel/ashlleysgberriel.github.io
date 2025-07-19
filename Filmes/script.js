@@ -1,44 +1,41 @@
-function saudacao() {
-    console.log("Olá, bem-vindo ao sistema!");
-}
-saudacao();
+// script.js
+import { filmes } from './DataF'; // Importa a variável 'filmes' do dataF.js
 
-let dataHora = new Date();
-function mostraHora(data) {
-    alert(`A hora atual é ${data.getHours()}:${data.getMinutes()}`);
-}
-mostraHora(dataHora);
+async function carregarFilmes() {
+    // Não precisamos mais do fetch, pois os dados já estão importados
+    // const resposta = await fetch('https://rafaelescalfoni.github.io/desenv_web/filmes.json');
+    // const filmes = await resposta.json(); // A variável 'filmes' já existe por causa do import
 
-let largura = 3;
-let altura = 4;
-function calculaAreaDoRetangulo(largura, altura) {
-    let total = largura * altura;
-    console.log(`A área do retângulo é ${total}`);
-}
-calculaAreaDoRetangulo(largura, altura);
+    const container = document.getElementById('catalogo');
 
-let num = 8;
-function ePar(numero) {
-    let resultado = numero % 2;
-    if (resultado == 0)
-        return true;
-    else return false;
-}
-console.log(`O número ${num} é ${ePar(num)} para par`);
+    filmes.forEach(filme => { // 'filmes' já está disponível aqui
+        const div = document.createElement('div');
+        div.className = 'filme';
 
-let nome = "Ash";
-let n1 = 80;
-let n2 = 70;
-let n3 = 90;
+        // Faixa etária colorida
+        let corFaixa = 'verde';
+        if (filme.classificacao >= 18) corFaixa = 'vermelho';
+        else if (filme.classificacao >= 14) corFaixa = 'amarelo';
 
-let media = (n1 + n2 + n3) / 3;
+        // Estrelas
+        // Certifique-se que filme.rating é um número válido.
+        // Se for um valor com vírgula (ex: "4,5"), Math.round não funcionará.
+        // Use parseFloat para converter se necessário: Math.round(parseFloat(filme.rating))
+        let estrelas = '★'.repeat(Math.round(filme.rating)) + '☆'.repeat(5 - Math.round(filme.rating));
 
-function avaliarAluno(media) {
-    if (media >= 70) {
-        return `Aluna aprovada`;
-    } else {
-        return `Aluna reprovada`;
-    }
+        div.innerHTML = `
+            <h2>${filme.titulo}</h2>
+            <p>${filme.resumo}</p>
+            <img src="${filme.figura}" alt="Imagem do filme">
+            <p>Elenco: ${filme.elenco.join(', ')}</p>
+            <p>Gêneros: ${filme.generos.join(', ')}</p>
+            <p><span class="faixa ${corFaixa}">Classificação: ${filme.classificacao} anos</span></p>
+            <p class="estrelas">${estrelas}</p>
+            <p>Opiniões: ${filme.opinioes.map(o => o.descricao).join('; ')}</p>
+        `; // Alterei para opiniões.map(o => o.descricao).join('; ') para exibir as descrições.
+
+        container.appendChild(div);
+    });
 }
 
-console.log(`A aluna é ${nome}, tem média ${media} e sua situação é: ${avaliarAluno(media)}`);
+carregarFilmes();

@@ -1,0 +1,40 @@
+body {
+    font-family: Arial;
+    background: #f0f0f0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.filmes {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px auto;
+    max-width: 600px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.filmes img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.faixa {
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.verde { background: green; }
+.amarelo { background: orange; }
+.vermelho { background: red; }
+
+.estrelas {
+    color: gold;
+    font-size: 20px;
+}
